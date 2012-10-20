@@ -1,6 +1,7 @@
 # Graphite
+[![Build Status](https://secure.travis-ci.org/trobrock/graphite_gem.png)](http://travis-ci.org/trobrock/graphite_gem)
 
-TODO: Write a gem description
+Simple wrapper to the Graphite render api
 
 ## Installation
 
