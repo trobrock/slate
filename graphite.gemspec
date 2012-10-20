@@ -8,9 +8,9 @@ Gem::Specification.new do |gem|
   gem.version       = Graphite::VERSION
   gem.authors       = ["Trae Robrock"]
   gem.email         = ["trobrock@gmail.com"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
-  gem.homepage      = ""
+  gem.description   = %q{Simple api on top of the graphite render api}
+  gem.summary       = %q{Simple wrapper on top of the graphite render api}
+  gem.homepage      = "https://github.com/trobrock/graphite_gem"
 
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
