@@ -4,7 +4,8 @@ require 'rest_client'
 module Graphite
   class Render
     def initialize(options={})
-      @target = parse_target(options[:target])
+      @target = options[:target]
+      @functions = []
     end
 
     def url(format=:png)
@@ -16,20 +17,24 @@ module Graphite
       RestClient.get url(format)
     end
 
+    def add_function(*function)
+      if function.size > 1
+        @functions << [function.first.to_sym, function[1..-1]]
+      else
+        @functions << function.first.to_sym
+      end
+    end
+
     private
 
-    def parse_target(target)
-      return target if target.is_a? String
-
-      functions = target.last
-      target    = target.first
-
-      functions.each do |function, args|
-        if args == true
+    def target
+      target = @target
+      @functions.each do |function|
+        if function.is_a? Symbol
           target = %Q{#{function}(#{target})}
         else
-          args = [args].flatten.map{ |arg| %Q{"#{arg}"} }.join(",")
-          target = %Q{#{function}(#{target},#{args})}
+          args = function.last.map{ |arg| %Q{"#{arg}"} }.join(",")
+          target = %Q{#{function.first}(#{target},#{args})}
         end
       end
 
@@ -38,7 +43,7 @@ module Graphite
 
     def url_options
       {
-        "target" => @target
+        "target" => target
       }
     end
 

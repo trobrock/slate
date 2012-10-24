@@ -23,13 +23,18 @@ describe Graphite::Render do
   end
 
   it "should be able to apply functions" do
-    graph = Graphite::Render.new(:target => ["app.server01.load", { :cumulative => true }])
+    graph = Graphite::Render.new(:target => "app.server01.load")
+    graph.add_function :cumulative
     graph.url.should include(CGI.escape("cumulative(app.server01.load)"))
 
     graph = Graphite::Render.new(:target => ["app.server01.load", { :cumulative => true, :alias => "load" }])
+    graph = Graphite::Render.new(:target => "app.server01.load")
+    graph.add_function :cumulative
+    graph.add_function :alias, "load"
     graph.url.should include(CGI.escape("alias(cumulative(app.server01.load),\"load\""))
 
-    graph = Graphite::Render.new(:target => ["app.server01.load", { :summarize => ["1s", "sum"] }])
+    graph = Graphite::Render.new(:target => "app.server01.load")
+    graph.add_function :summarize, "1s", "sum"
     graph.url.should include(CGI.escape("summarize(app.server01.load,\"1s\",\"sum\")"))
   end
 
@@ -54,6 +59,5 @@ end
 
 def stub_download(format, body="")
   stub_request(:get, "http://graphite/render?format=#{format}&target=app.server01.load").
-    with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate', 'User-Agent'=>'Ruby'}).
     to_return(:status => 200, :body => body, :headers => {})
 end
