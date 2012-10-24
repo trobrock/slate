@@ -22,6 +22,17 @@ describe Graphite::Render do
     graph.url.should == "http://graphite/render?target=app.server01.load&format=png"
   end
 
+  it "should be able to apply functions" do
+    graph = Graphite::Render.new(:target => ["app.server01.load", { :cumulative => true }])
+    graph.url.should include(CGI.escape("cumulative(app.server01.load)"))
+
+    graph = Graphite::Render.new(:target => ["app.server01.load", { :cumulative => true, :alias => "load" }])
+    graph.url.should include(CGI.escape("alias(cumulative(app.server01.load),\"load\""))
+
+    graph = Graphite::Render.new(:target => ["app.server01.load", { :summarize => ["1s", "sum"] }])
+    graph.url.should include(CGI.escape("summarize(app.server01.load,\"1s\",\"sum\")"))
+  end
+
   it "should provide methods for retrieving formats" do
     graph = Graphite::Render.new(:target => "app.server01.load")
     graph.url(:png).should  match(/format=png/)
