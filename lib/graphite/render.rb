@@ -1,4 +1,5 @@
 require 'cgi'
+require 'rest_client'
 
 module Graphite
   class Render
@@ -9,6 +10,10 @@ module Graphite
     def url(format=:png)
       options = url_options.merge("format" => format.to_s)
       "#{Configuration.instance.endpoint}/render?#{params(options)}"
+    end
+
+    def download(format=:png)
+      RestClient.get url(format)
     end
 
     private

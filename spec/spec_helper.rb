@@ -1,4 +1,5 @@
 require "graphite"
+require "webmock/rspec"
 
 RSpec.configure do |config|
   # Use color in STDOUT
