@@ -19,7 +19,7 @@ describe Graphite::Render do
 
   it "should be able to get a single target" do
     graph = Graphite::Render.new(:target => "app.server01.load")
-    graph.url.should == "http://graphite/render?target=app.server01.load&format=png"
+    query(graph.url).should include("target" => "app.server01.load", "format" => "png")
   end
 
   it "should be able to apply functions" do

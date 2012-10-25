@@ -1,5 +1,7 @@
 require "graphite"
 require "webmock/rspec"
+require "uri"
+require "cgi"
 
 RSpec.configure do |config|
   # Use color in STDOUT
@@ -10,4 +12,14 @@ RSpec.configure do |config|
 
   # Use the specified formatter
   config.formatter = :documentation # :progress, :html, :textmate
+end
+
+def query(url)
+  CGI.parse(URI.parse(url).query).inject({}) do |h, x|
+    key = x.first
+    val = x.last
+    h[key] = val.size == 1 ? val.first : val
+
+    h
+  end
 end
