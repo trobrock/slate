@@ -27,7 +27,6 @@ describe Graphite::Render do
     graph.add_function :cumulative
     graph.url.should include(CGI.escape("cumulative(app.server01.load)"))
 
-    graph = Graphite::Render.new(:target => ["app.server01.load", { :cumulative => true, :alias => "load" }])
     graph = Graphite::Render.new(:target => "app.server01.load")
     graph.add_function :cumulative
     graph.add_function :alias, "load"
