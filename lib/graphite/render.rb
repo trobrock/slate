@@ -23,6 +23,8 @@ module Graphite
       else
         @functions << function.first.to_sym
       end
+
+      target
     end
 
     private
