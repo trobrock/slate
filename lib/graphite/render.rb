@@ -5,6 +5,8 @@ module Graphite
   class Render
     def initialize(options={})
       @target = options[:target]
+      @from   = options[:from]
+      @until  = options[:until]
       @functions = []
     end
 
@@ -44,9 +46,13 @@ module Graphite
     end
 
     def url_options
-      {
+      options = {
         "target" => target
       }
+      options["from"]  = @from if @from
+      options["until"] = @until if @until
+
+      options
     end
 
     def params(options={})

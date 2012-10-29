@@ -37,6 +37,18 @@ describe Graphite::Render do
     graph.url.should include(CGI.escape("summarize(app.server01.load,\"1s\",\"sum\")"))
   end
 
+  it "should be able to specify start and end times" do
+    graph = Graphite::Render.new(:target => "app.server01.load", :from => "-1d")
+    graph.url.should match(/from=-1d/)
+
+    graph = Graphite::Render.new(:target => "app.server01.load", :until => "-1d")
+    graph.url.should match(/until=-1d/)
+
+    graph = Graphite::Render.new(:target => "app.server01.load", :from => "-1d", :until => "-6h")
+    graph.url.should match(/from=-1d/)
+    graph.url.should match(/until=-6h/)
+  end
+
   it "should provide methods for retrieving formats" do
     graph = Graphite::Render.new(:target => "app.server01.load")
     graph.url(:png).should  match(/format=png/)
