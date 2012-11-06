@@ -1,5 +1,6 @@
 require "graphite"
 require "webmock/rspec"
+require "mocha"
 require "uri"
 require "cgi"
 
@@ -12,6 +13,8 @@ RSpec.configure do |config|
 
   # Use the specified formatter
   config.formatter = :documentation # :progress, :html, :textmate
+
+  config.mock_framework = :mocha
 end
 
 def query(url)
