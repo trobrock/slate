@@ -37,7 +37,7 @@ module Graphite
         if function.is_a? Symbol
           target = %Q{#{function}(#{target})}
         else
-          args = function.last.map{ |arg| %Q{"#{arg}"} }.join(",")
+          args = function.last.map{ |arg| arg.is_a?(Numeric) ? arg.to_s : %Q{"#{arg}"} }.join(",")
           target = %Q{#{function.first}(#{target},#{args})}
         end
       end

@@ -35,6 +35,10 @@ describe Graphite::Render do
     graph = Graphite::Render.new(:target => "app.server01.load")
     graph.add_function :summarize, "1s", "sum"
     graph.url.should include(CGI.escape("summarize(app.server01.load,\"1s\",\"sum\")"))
+
+    graph = Graphite::Render.new(:target => "app.server01.load")
+    graph.add_function :movingAverage, 10
+    graph.url.should include(CGI.escape("movingAverage(app.server01.load,10)"))
   end
 
   it "should be able to specify start and end times" do
