@@ -1,4 +1,4 @@
-require "graphite"
+require "slate"
 require "webmock/rspec"
 require "mocha_standalone"
 require "uri"

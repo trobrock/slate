@@ -1,6 +1,6 @@
 require 'json'
 
-module Graphite
+module Slate
   module Calculation
     class Base
       def initialize(graph)

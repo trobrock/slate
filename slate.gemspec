@@ -1,16 +1,16 @@
 # -*- encoding: utf-8 -*-
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'graphite/version'
+require 'slate/version'
 
 Gem::Specification.new do |gem|
-  gem.name          = "graphite"
-  gem.version       = Graphite::VERSION
+  gem.name          = "slate"
+  gem.version       = Slate::VERSION
   gem.authors       = ["Trae Robrock"]
   gem.email         = ["trobrock@gmail.com"]
   gem.description   = %q{Simple api on top of the graphite render api}
   gem.summary       = %q{Simple wrapper on top of the graphite render api}
-  gem.homepage      = "https://github.com/trobrock/graphite_gem"
+  gem.homepage      = "https://github.com/trobrock/slate"
 
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
