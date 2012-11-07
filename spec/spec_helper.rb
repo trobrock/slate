@@ -1,6 +1,6 @@
 require "graphite"
 require "webmock/rspec"
-require "mocha"
+require "mocha_standalone"
 require "uri"
 require "cgi"
 
