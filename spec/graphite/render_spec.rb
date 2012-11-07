@@ -41,6 +41,17 @@ describe Graphite::Render do
     graph.url.should include(CGI.escape("movingAverage(app.server01.load,10)"))
   end
 
+  it "should be able to accept other graphs as options to a function" do
+    graph = Graphite::Render.new(:target => "app.server01.load")
+
+    other_graph = Graphite::Render.new(:target => "app.server*.load")
+    other_graph.add_function :sum
+
+    graph.add_function :asPercent, other_graph
+
+    graph.url.should include(CGI.escape("asPercent(app.server01.load,sum(app.server*.load))"))
+  end
+
   it "should be able to specify start and end times" do
     graph = Graphite::Render.new(:target => "app.server01.load", :from => "-1d")
     graph.url.should match(/from=-1d/)
