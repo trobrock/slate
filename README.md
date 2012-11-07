@@ -1,5 +1,5 @@
-# Graphite
-[![Build Status](https://secure.travis-ci.org/trobrock/graphite_gem.png)](http://travis-ci.org/trobrock/graphite_gem)
+# Slate
+[![Build Status](https://secure.travis-ci.org/trobrock/slate.png)](http://travis-ci.org/trobrock/slate)
 
 Simple wrapper to the Graphite render api
 
@@ -7,7 +7,7 @@ Simple wrapper to the Graphite render api
 
 Add this line to your application's Gemfile:
 
-    gem 'graphite'
+    gem 'slate'
 
 And then execute:
 
@@ -15,7 +15,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install graphite
+    $ gem install slate
 
 ## Usage
 
