@@ -1,7 +1,7 @@
 require 'cgi'
 require 'rest_client'
 
-module Graphite
+module Slate
   class Render
     def initialize(options={})
       @target = options[:target]
@@ -50,7 +50,7 @@ module Graphite
       args.map do |arg|
         if arg.is_a?(Numeric)
           arg.to_s
-        elsif arg.is_a?(Graphite::Render)
+        elsif arg.is_a?(Slate::Render)
           arg.send(:target)
         else
           %Q{"#{arg}"}

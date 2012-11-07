@@ -1,6 +1,6 @@
 require 'singleton'
 
-module Graphite
+module Slate
   class Configuration
     include Singleton
 

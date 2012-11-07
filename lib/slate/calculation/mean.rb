@@ -1,4 +1,4 @@
-module Graphite
+module Slate
   module Calculation
     class Mean < Base
       def result

@@ -1,8 +1,8 @@
 require File.join(File.dirname(__FILE__), '..', '..', 'spec_helper')
 
-describe Graphite::Calculation::Mean do
+describe Slate::Calculation::Mean do
   before do
-    @graph = Graphite::Render.new(:target => "some.stat")
+    @graph = Slate::Render.new(:target => "some.stat")
     data = [
       {
         "target" => "some.stat",
@@ -18,7 +18,7 @@ describe Graphite::Calculation::Mean do
   end
 
   it "should calculate the mean of the series" do
-    calculation = Graphite::Calculation::Mean.new(@graph)
+    calculation = Slate::Calculation::Mean.new(@graph)
     calculation.result.should == 1.5
   end
 end
