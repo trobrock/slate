@@ -7,7 +7,6 @@ module Slate
       @target = options[:target]
       @from   = options[:from]
       @until  = options[:until]
-      @functions = []
     end
 
     def url(format=:png)
@@ -19,48 +18,11 @@ module Slate
       RestClient.get url(format)
     end
 
-    def add_function(*function)
-      if function.size > 1
-        arguments = function[1..-1]
-        @functions << [function.first.to_sym, arguments]
-      else
-        @functions << function.first.to_sym
-      end
-
-      target
-    end
-
-    def target
-      target = @target
-      @functions.each do |function|
-        if function.is_a? Symbol
-          target = %Q{#{function}(#{target})}
-        else
-          args = arguments(function.last).join(",")
-          target = %Q{#{function.first}(#{target},#{args})}
-        end
-      end
-
-      target
-    end
-
     private
-
-    def arguments(args=[])
-      args.map do |arg|
-        if arg.is_a?(Numeric)
-          arg.to_s
-        elsif arg.is_a?(Slate::Graph)
-          arg.send(:target)
-        else
-          %Q{"#{arg}"}
-        end
-      end
-    end
 
     def url_options
       options = {
-        "target" => target
+        "target" => @target.to_s
       }
       options["from"]  = @from if @from
       options["until"] = @until if @until

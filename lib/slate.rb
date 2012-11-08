@@ -1,5 +1,6 @@
 require "slate/version"
 require "slate/configuration"
+require "slate/target"
 require "slate/graph"
 require "slate/calculation"
 
