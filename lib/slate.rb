@@ -1,6 +1,6 @@
 require "slate/version"
 require "slate/configuration"
-require "slate/render"
+require "slate/graph"
 require "slate/calculation"
 
 require "slate/calculation/mean"

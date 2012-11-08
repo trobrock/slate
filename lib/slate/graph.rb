@@ -2,7 +2,7 @@ require 'cgi'
 require 'rest_client'
 
 module Slate
-  class Render
+  class Graph
     def initialize(options={})
       @target = options[:target]
       @from   = options[:from]
@@ -50,7 +50,7 @@ module Slate
       args.map do |arg|
         if arg.is_a?(Numeric)
           arg.to_s
-        elsif arg.is_a?(Slate::Render)
+        elsif arg.is_a?(Slate::Graph)
           arg.send(:target)
         else
           %Q{"#{arg}"}

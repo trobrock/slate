@@ -2,7 +2,7 @@ require File.join(File.dirname(__FILE__), '..', '..', 'spec_helper')
 
 describe Slate::Calculation::Mean do
   before do
-    @graph = Slate::Render.new(:target => "some.stat")
+    @graph = Slate::Graph.new(:target => "some.stat")
     data = [
       {
         "target" => "some.stat",
