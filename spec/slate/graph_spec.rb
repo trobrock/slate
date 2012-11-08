@@ -19,7 +19,8 @@ describe Slate::Graph do
 
   it "should be able to get a single target" do
     target = Slate::Target.build("app.server01.load")
-    graph = Slate::Graph.new(:target => target)
+    graph = Slate::Graph.new
+    graph << target
     query(graph.url).should include("target" => "app.server01.load", "format" => "png")
   end
 
@@ -27,26 +28,30 @@ describe Slate::Graph do
     target = Slate::Target.build("app.server01.load") do |t|
       t.add_function :cumulative
     end
-    graph = Slate::Graph.new(:target => target)
+    graph = Slate::Graph.new
+    graph << target
     graph.url.should include(CGI.escape("cumulative(app.server01.load)"))
 
     target = Slate::Target.build("app.server01.load") do |t|
       t.add_function :cumulative
       t.add_function :alias, "load"
     end
-    graph = Slate::Graph.new(:target => target)
+    graph = Slate::Graph.new
+    graph << target
     graph.url.should include(CGI.escape("alias(cumulative(app.server01.load),\"load\""))
 
     target = Slate::Target.build("app.server01.load") do |t|
       t.add_function :summarize, "1s", "sum"
     end
-    graph = Slate::Graph.new(:target => target)
+    graph = Slate::Graph.new
+    graph << target
     graph.url.should include(CGI.escape("summarize(app.server01.load,\"1s\",\"sum\")"))
 
     target = Slate::Target.build("app.server01.load") do |t|
       t.add_function :movingAverage, 10
     end
-    graph = Slate::Graph.new(:target => target)
+    graph = Slate::Graph.new
+    graph << target
     graph.url.should include(CGI.escape("movingAverage(app.server01.load,10)"))
   end
 
@@ -58,27 +63,32 @@ describe Slate::Graph do
       t.add_function :asPercent, first_target
     end
 
-    graph = Slate::Graph.new(:target => second_target)
+    graph = Slate::Graph.new
+    graph << second_target
 
     graph.url.should include(CGI.escape("asPercent(app.server01.load,sum(app.server*.load))"))
   end
 
   it "should be able to specify start and end times" do
     target = Slate::Target.build("app.server01.load")
-    graph = Slate::Graph.new(:target => target, :from => "-1d")
+    graph = Slate::Graph.new(:from => "-1d")
+    graph << target
     graph.url.should match(/from=-1d/)
 
-    graph = Slate::Graph.new(:target => target, :until => "-1d")
+    graph = Slate::Graph.new(:until => "-1d")
+    graph << target
     graph.url.should match(/until=-1d/)
 
-    graph = Slate::Graph.new(:target => target, :from => "-1d", :until => "-6h")
+    graph = Slate::Graph.new(:from => "-1d", :until => "-6h")
+    graph << target
     graph.url.should match(/from=-1d/)
     graph.url.should match(/until=-6h/)
   end
 
   it "should provide methods for retrieving formats" do
     target = Slate::Target.build("app.server01.load")
-    graph = Slate::Graph.new(:target => target)
+    graph = Slate::Graph.new
+    graph << target
     graph.url(:png).should  match(/format=png/)
     graph.url(:raw).should  match(/format=raw/)
     graph.url(:csv).should  match(/format=csv/)
@@ -88,7 +98,8 @@ describe Slate::Graph do
 
   it "should retrieve the graph" do
     target = Slate::Target.build("app.server01.load")
-    graph = Slate::Graph.new(:target => target)
+    graph = Slate::Graph.new
+    graph << target
     graph.download(:png).should  eq(@png_stub)
     graph.download(:raw).should  eq(@raw_stub)
     graph.download(:csv).should  eq(@csv_stub)
