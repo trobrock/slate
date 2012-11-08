@@ -1,5 +1,6 @@
 # Slate
 [![Build Status](https://secure.travis-ci.org/trobrock/slate.png)](http://travis-ci.org/trobrock/slate)
+[![Dependency Status](https://gemnasium.com/trobrock/slate.png)](https://gemnasium.com/trobrock/slate)
 
 Simple wrapper to the Graphite render api
 
