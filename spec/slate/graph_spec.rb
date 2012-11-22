@@ -17,6 +17,17 @@ describe Slate::Graph do
     stub_download :svg , @svg_stub
   end
 
+  it "should have accessors for from and until" do
+    graph = Slate::Graph.new(from: "-1w")
+    graph.from.should == "-1w"
+
+    graph.from = "-1d"
+    graph.from.should == "-1d"
+
+    graph.until = "-1d"
+    graph.until.should == "-1d"
+  end
+
   it "should be able to get a single target" do
     target = Slate::Target.build("app.server01.load")
     graph = Slate::Graph.new

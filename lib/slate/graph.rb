@@ -3,6 +3,8 @@ require 'rest-client'
 
 module Slate
   class Graph
+    attr_accessor :from, :until
+
     def initialize(options={})
       @from    = options[:from]
       @until   = options[:until]
