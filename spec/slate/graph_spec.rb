@@ -18,7 +18,7 @@ describe Slate::Graph do
   end
 
   it "should have accessors for from and until" do
-    graph = Slate::Graph.new(from: "-1w")
+    graph = Slate::Graph.new(:from => "-1w")
     graph.from.should == "-1w"
 
     graph.from = "-1d"
