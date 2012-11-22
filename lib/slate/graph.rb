@@ -1,5 +1,5 @@
 require 'cgi'
-require 'rest_client'
+require 'rest-client'
 
 module Slate
   class Graph
