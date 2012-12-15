@@ -5,6 +5,7 @@ require "slate/graph"
 require "slate/calculation"
 
 require "slate/calculation/mean"
+require "slate/calculation/last"
 
 module Slate
   def self.configure
