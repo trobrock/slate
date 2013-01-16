@@ -1,15 +1,15 @@
 module Slate
   grammar SlateTree
     rule document
-      (target / function / space)*
+      (target / space)*
     end
 
     rule target
-      space string space '{' space? function? space? '}' <Target>
+      space? string space '{' space? function* space? '}' <Target>
     end
 
     rule function
-      token space? argument* <Function>
+      token space? (target / argument)* <Function>
     end
 
     rule argument
@@ -17,7 +17,7 @@ module Slate
     end
 
     rule token
-      [a-z]+ <Token>
+      [a-zA-Z]+ <Token>
     end
 
     rule string
