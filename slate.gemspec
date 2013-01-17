@@ -20,6 +20,7 @@ Gem::Specification.new do |gem|
   gem.add_dependency "rest-client", "~> 1.6.7"
   gem.add_dependency "json", "~> 1.7.5"
   gem.add_dependency "jruby-openssl" if RUBY_PLATFORM == 'java'
+  gem.add_dependency "treetop", "~> 1.4.12"
 
   gem.add_development_dependency "rake"
   gem.add_development_dependency "rspec"

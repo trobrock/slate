@@ -1,0 +1,31 @@
+module Slate
+  grammar SlateTree
+    rule document
+      (target / space)*
+    end
+
+    rule target
+      space? string space '{' space? function* space? '}' <Target>
+    end
+
+    rule function
+      token space? (target / argument)* <Function>
+    end
+
+    rule argument
+      string ','? space? <Argument>
+    end
+
+    rule token
+      [a-zA-Z]+ <Token>
+    end
+
+    rule string
+      '"' ('\"' / !'"' .)* '"' <String>
+    end
+
+    rule space
+      [\s]+
+    end
+  end
+end

@@ -3,6 +3,7 @@ require "slate/configuration"
 require "slate/target"
 require "slate/graph"
 require "slate/calculation"
+require "slate/parser"
 
 require "slate/calculation/mean"
 require "slate/calculation/last"
