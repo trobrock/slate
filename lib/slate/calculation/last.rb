@@ -1,8 +1,10 @@
 module Slate
   module Calculation
     class Last < Base
-      def result
-        data.last
+      protected
+
+      def map(points)
+        points.last
       end
     end
   end

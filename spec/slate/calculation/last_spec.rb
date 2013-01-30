@@ -19,6 +19,6 @@ describe Slate::Calculation::Last do
 
   it "should calculate the mean of the series" do
     calculation = Slate::Calculation::Last.new(@graph)
-    calculation.result.should == 3.0
+    calculation.result.should == [{ "name" => "some.stat", "value" => 3.0 }]
   end
 end
