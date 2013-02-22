@@ -45,5 +45,15 @@ module Slate
         super.gsub(/"/,'')
       end
     end
+
+    class Integer < Treetop::Runtime::SyntaxNode
+      def type
+        :integer
+      end
+
+      def text_value
+        super.to_i
+      end
+    end
   end
 end

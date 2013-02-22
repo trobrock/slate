@@ -13,7 +13,7 @@ module Slate
     end
 
     rule argument
-      string ','? space? <Argument>
+      (string / integer) ','? space? <Argument>
     end
 
     rule token
@@ -22,6 +22,10 @@ module Slate
 
     rule string
       '"' ('\"' / !'"' .)* '"' <String>
+    end
+
+    rule integer
+      [\d]+ <Integer>
     end
 
     rule space

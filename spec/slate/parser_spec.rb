@@ -45,6 +45,18 @@ describe Slate::Parser do
     }).to_s.should == target.to_s
   end
 
+  it "should be able to parse a target with one function and single integer arg" do
+    target = Slate::Target.build("stats.web01.response_time") do |t|
+      t.add_function :aliasByNode, 3
+    end
+
+    Slate::Parser.parse(%q{
+      "stats.web01.response_time" {
+        aliasByNode 3
+      }
+    }).to_s.should == target.to_s
+  end
+
   it "should be able to parse a target with one function and multiple args" do
     target = Slate::Target.build("stats.web01.response_time") do |t|
       t.add_function :summarize, "5min", "avg"
