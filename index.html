@@ -54,6 +54,15 @@
 
 <h2>Usage</h2>
 
+<h3>Configuration</h3>
+
+<p>Configure the Slate client</p>
+
+<div class="highlight"><pre><span class="no">Slate</span><span class="o">.</span><span class="n">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+  <span class="n">config</span><span class="o">.</span><span class="n">endpoint</span> <span class="o">=</span> <span class="s2">"http://your.graphite-server.com"</span>
+<span class="k">end</span>
+</pre></div>
+
 <h3>Ruby interface</h3>
 
 <p>To build a basic graph</p>
@@ -75,7 +84,7 @@
 
 <p>Use functions</p>
 
-<div class="highlight"><pre><span class="n">graph</span>       <span class="o">=</span> <span class="ss">Slate</span><span class="p">:</span><span class="ss">:Graph</span><span class="o">.</span><span class="n">new</span>
+<div class="highlight"><pre><span class="n">graph</span> <span class="o">=</span> <span class="ss">Slate</span><span class="p">:</span><span class="ss">:Graph</span><span class="o">.</span><span class="n">new</span>
 
 <span class="n">graph</span> <span class="o">&lt;&lt;</span> <span class="ss">Slate</span><span class="p">:</span><span class="ss">:Target</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="s2">"stats.web01.load"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">target</span><span class="o">|</span>
   <span class="n">target</span><span class="o">.</span><span class="n">add_function</span> <span class="ss">:sum</span>
@@ -83,11 +92,39 @@
 <span class="k">end</span>
 </pre></div>
 
-<p>Or more complex targets (like passing targets to other targets): <a href="spec/slate/graph_spec.rb">Graph Spec</a></p>
+<p>Or more complex targets (like passing targets to other targets): <a href="https://github.com/trobrock/slate/blob/master/spec/slate/graph_spec.rb">Graph Spec</a></p>
 
 <h3>Slate text interface</h3>
 
+<p>Slate also provides a text interface for building targets, this can be useful if you want to enable users to create graphs.
+This text interface also support being able to pass targets as arguments to functions, like you need for the <code>asPercentOf</code> function.</p>
+
+<div class="highlight"><pre><span class="n">graph</span> <span class="o">=</span> <span class="ss">Slate</span><span class="p">:</span><span class="ss">:Graph</span><span class="o">.</span><span class="n">new</span>
+
+<span class="n">target</span> <span class="o">=</span> <span class="o">&lt;&lt;-</span><span class="no">SLATE</span>
+<span class="sh">"stats.web1.load" {</span>
+<span class="sh">  sum</span>
+<span class="sh">  alias "load"</span>
+<span class="sh">}</span>
+<span class="no">SLATE</span>
+
+<span class="n">graph</span> <span class="o">&lt;&lt;</span> <span class="ss">Slate</span><span class="p">:</span><span class="ss">:Parser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+</pre></div>
+
+<p>Full test cases for different things this syntax supports are here: <a href="https://github.com/trobrock/slate/blob/master/spec/slate/parser_spec.rb">Parser Spec</a></p>
+
 <h3>Calculations</h3>
+
+<p>Slate supports things call Calculations, which take in graphite data and boil them down to single numbers, this can be useful if you wanted to calculate the average load over the week for all your servers.</p>
+
+<div class="highlight"><pre><span class="n">graph</span> <span class="o">=</span> <span class="ss">Slate</span><span class="p">:</span><span class="ss">:Graph</span><span class="o">.</span><span class="n">new</span>
+<span class="n">graph</span> <span class="o">&lt;&lt;</span> <span class="ss">Slate</span><span class="p">:</span><span class="ss">:Target</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="s2">"stats.web01.load"</span><span class="p">)</span>
+
+<span class="nb">p</span> <span class="ss">Slate</span><span class="p">:</span><span class="ss">:Calculation</span><span class="o">::</span><span class="no">Mean</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span><span class="o">.</span><span class="n">result</span>
+<span class="c1"># [{ "name" =&gt; "stats.web01.load", "value" =&gt; 1.5 }]</span>
+</pre></div>
+
+<p>All the possible calculation classes are <a href="https://github.com/trobrock/slate/tree/master/lib/slate/calculation">here</a>.</p>
 
 <h2>Contributing</h2>
 
@@ -99,8 +136,9 @@
 <li>Create new Pull Request</li>
 </ol><h2>Contributors</h2>
 
-<p>Trae Robrock (<a href="https://github.com/trobrock">https://github.com/trobrock</a>)
-Andrew Katz (<a href="https://github.com/andrewkatz">https://github.com/andrewkatz</a>)</p>
+<p>Trae Robrock (<a href="https://github.com/trobrock">https://github.com/trobrock</a>)</p>
+
+<p>Andrew Katz (<a href="https://github.com/andrewkatz">https://github.com/andrewkatz</a>)</p>
       </section>
       <footer>
         <p>This project is maintained by <a href="https://github.com/trobrock">trobrock</a></p>
