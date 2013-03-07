@@ -54,7 +54,40 @@
 
 <h2>Usage</h2>
 
-<p>TODO: Write usage instructions here</p>
+<h3>Ruby interface</h3>
+
+<p>To build a basic graph</p>
+
+<div class="highlight"><pre><span class="n">graph</span> <span class="o">=</span> <span class="ss">Slate</span><span class="p">:</span><span class="ss">:Graph</span><span class="o">.</span><span class="n">new</span>
+<span class="n">graph</span> <span class="o">&lt;&lt;</span> <span class="ss">Slate</span><span class="p">:</span><span class="ss">:Target</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="s2">"stats.web01.load"</span><span class="p">)</span>
+
+<span class="nb">puts</span> <span class="n">graph</span><span class="o">.</span><span class="n">url</span>
+<span class="nb">puts</span> <span class="n">graph</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="ss">:json</span><span class="p">)</span>
+</pre></div>
+
+<p>Adjust the timeframe of the graph</p>
+
+<div class="highlight"><pre><span class="n">graph</span>       <span class="o">=</span> <span class="ss">Slate</span><span class="p">:</span><span class="ss">:Graph</span><span class="o">.</span><span class="n">new</span>
+<span class="n">graph</span><span class="o">.</span><span class="n">from</span>  <span class="o">=</span> <span class="s2">"-1w"</span>
+<span class="n">graph</span><span class="o">.</span><span class="n">until</span> <span class="o">=</span> <span class="s2">"-1d"</span>
+<span class="n">graph</span> <span class="o">&lt;&lt;</span> <span class="ss">Slate</span><span class="p">:</span><span class="ss">:Target</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="s2">"stats.web01.load"</span><span class="p">)</span>
+</pre></div>
+
+<p>Use functions</p>
+
+<div class="highlight"><pre><span class="n">graph</span>       <span class="o">=</span> <span class="ss">Slate</span><span class="p">:</span><span class="ss">:Graph</span><span class="o">.</span><span class="n">new</span>
+
+<span class="n">graph</span> <span class="o">&lt;&lt;</span> <span class="ss">Slate</span><span class="p">:</span><span class="ss">:Target</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="s2">"stats.web01.load"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">target</span><span class="o">|</span>
+  <span class="n">target</span><span class="o">.</span><span class="n">add_function</span> <span class="ss">:sum</span>
+  <span class="n">target</span><span class="o">.</span><span class="n">add_function</span> <span class="ss">:alias</span><span class="p">,</span> <span class="s2">"load"</span>
+<span class="k">end</span>
+</pre></div>
+
+<p>Or more complex targets (like passing targets to other targets): <a href="spec/slate/graph_spec.rb">Graph Spec</a></p>
+
+<h3>Slate text interface</h3>
+
+<h3>Calculations</h3>
 
 <h2>Contributing</h2>
 
