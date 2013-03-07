@@ -20,7 +20,44 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+### Ruby interface
+
+To build a basic graph
+
+```ruby
+graph = Slate::Graph.new
+graph << Slate::Target.build("stats.web01.load")
+
+puts graph.url
+puts graph.download(:json)
+```
+
+Adjust the timeframe of the graph
+
+```ruby
+graph       = Slate::Graph.new
+graph.from  = "-1w"
+graph.until = "-1d"
+graph << Slate::Target.build("stats.web01.load")
+```
+
+Use functions
+
+```ruby
+graph       = Slate::Graph.new
+
+graph << Slate::Target.build("stats.web01.load") do |target|
+  target.add_function :sum
+  target.add_function :alias, "load"
+end
+```
+
+Or more complex targets (like passing targets to other targets): [Graph Spec](spec/slate/graph_spec.rb)
+
+
+### Slate text interface
+
+### Calculations
 
 ## Contributing
 
