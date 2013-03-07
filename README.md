@@ -20,6 +20,16 @@ Or install it yourself as:
 
 ## Usage
 
+### Configuration
+
+Configure the Slate client
+
+```ruby
+Slate.configure do |config|
+  config.endpoint = "http://your.graphite-server.com"
+end
+```
+
 ### Ruby interface
 
 To build a basic graph
@@ -44,7 +54,7 @@ graph << Slate::Target.build("stats.web01.load")
 Use functions
 
 ```ruby
-graph       = Slate::Graph.new
+graph = Slate::Graph.new
 
 graph << Slate::Target.build("stats.web01.load") do |target|
   target.add_function :sum
@@ -52,12 +62,41 @@ graph << Slate::Target.build("stats.web01.load") do |target|
 end
 ```
 
-Or more complex targets (like passing targets to other targets): [Graph Spec](spec/slate/graph_spec.rb)
-
+Or more complex targets (like passing targets to other targets): [Graph Spec](https://github.com/trobrock/slate/blob/master/spec/slate/graph_spec.rb)
 
 ### Slate text interface
 
+Slate also provides a text interface for building targets, this can be useful if you want to enable users to create graphs.
+This text interface also support being able to pass targets as arguments to functions, like you need for the `asPercentOf` function.
+
+```ruby
+graph = Slate::Graph.new
+
+target = <<-SLATE
+"stats.web1.load" {
+  sum
+  alias "load"
+}
+SLATE
+
+graph << Slate::Parser.parse(target)
+```
+
+Full test cases for different things this syntax supports are here: [Parser Spec](https://github.com/trobrock/slate/blob/master/spec/slate/parser_spec.rb)
+
 ### Calculations
+
+Slate supports things call Calculations, which take in graphite data and boil them down to single numbers, this can be useful if you wanted to calculate the average load over the week for all your servers.
+
+```ruby
+graph = Slate::Graph.new
+graph << Slate::Target.build("stats.web01.load")
+
+p Slate::Calculation::Mean.new(graph).result
+# [{ "name" => "stats.web01.load", "value" => 1.5 }]
+```
+
+All the possible calculation classes are [here](https://github.com/trobrock/slate/tree/master/lib/slate/calculation).
 
 ## Contributing
 
@@ -70,4 +109,5 @@ Or more complex targets (like passing targets to other targets): [Graph Spec](sp
 ## Contributors
 
 Trae Robrock (https://github.com/trobrock)
+
 Andrew Katz (https://github.com/andrewkatz)
