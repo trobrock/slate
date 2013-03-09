@@ -1,4 +1,5 @@
 require 'treetop'
+require 'singleton'
 require 'slate/parser/extensions'
 Treetop.load File.join(File.dirname(__FILE__), 'parser', 'slate_tree')
 

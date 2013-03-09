@@ -1,6 +1,6 @@
-require File.join(File.dirname(__FILE__), '..', '..', 'spec_helper')
+require File.join(File.dirname(__FILE__), '..', '..', '..', 'spec_helper')
 
-describe Slate::Calculation::Last do
+describe Slate::Calculation::Mean do
   before do
     @graph = Slate::Graph.new(:target => "some.stat")
     data = [
@@ -18,7 +18,7 @@ describe Slate::Calculation::Last do
   end
 
   it "should calculate the mean of the series" do
-    calculation = Slate::Calculation::Last.new(@graph)
-    calculation.result.should == [{ "name" => "some.stat", "value" => 3.0 }]
+    calculation = Slate::Calculation::Mean.new(@graph)
+    calculation.result.should == [{ "name" => "some.stat", "value" => 1.5 }]
   end
 end

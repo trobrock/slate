@@ -1,5 +1,5 @@
 require "slate/version"
-require "slate/configuration"
+require "slate/client"
 require "slate/target"
 require "slate/graph"
 require "slate/calculation"
@@ -9,11 +9,21 @@ require "slate/calculation/mean"
 require "slate/calculation/last"
 
 module Slate
+  # Public: Configures a new Client instance.
+  #
+  # Yields the Client instance to configure.
+  #
+  # Examples
+  #
+  #   Slate.configure do |config|
+  #     config.endpoint = "http://example.com"
+  #   end
+  #   # => Slate::Client
+  #
+  # Returns a configured Client instance.
   def self.configure
-    yield Configuration.instance
-  end
-
-  def self.configuration
-    Configuration.instance
+    client = Client.new
+    yield client
+    client
   end
 end

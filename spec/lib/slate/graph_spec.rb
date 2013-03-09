@@ -1,8 +1,8 @@
-require File.join(File.dirname(__FILE__), '..', 'spec_helper')
+require File.join(File.dirname(__FILE__), '..', '..', 'spec_helper')
 
 describe Slate::Graph do
   before(:each) do
-    Slate.configure { |c| c.endpoint = "http://graphite" }
+    @client = Slate.configure { |c| c.endpoint = "http://graphite" }
 
     @png_stub  = "PNG Image Data"
     @raw_stub  = "RAW Image Data"
@@ -18,7 +18,7 @@ describe Slate::Graph do
   end
 
   it "should have accessors for from and until" do
-    graph = Slate::Graph.new(:from => "-1w")
+    graph = Slate::Graph.new(@client, :from => "-1w")
     graph.from.should == "-1w"
 
     graph.from = "-1d"
@@ -30,7 +30,7 @@ describe Slate::Graph do
 
   it "should be able to get a single target" do
     target = Slate::Target.build("app.server01.load")
-    graph = Slate::Graph.new
+    graph = Slate::Graph.new(@client)
     graph << target
     query(graph.url).should include("target" => "app.server01.load", "format" => "png")
   end
@@ -39,7 +39,7 @@ describe Slate::Graph do
     target = Slate::Target.build("app.server01.load") do |t|
       t.add_function :cumulative
     end
-    graph = Slate::Graph.new
+    graph = Slate::Graph.new(@client)
     graph << target
     graph.url.should include(CGI.escape("cumulative(app.server01.load)"))
 
@@ -47,21 +47,21 @@ describe Slate::Graph do
       t.add_function :cumulative
       t.add_function :alias, "load"
     end
-    graph = Slate::Graph.new
+    graph = Slate::Graph.new(@client)
     graph << target
     graph.url.should include(CGI.escape("alias(cumulative(app.server01.load),\"load\""))
 
     target = Slate::Target.build("app.server01.load") do |t|
       t.add_function :summarize, "1s", "sum"
     end
-    graph = Slate::Graph.new
+    graph = Slate::Graph.new(@client)
     graph << target
     graph.url.should include(CGI.escape("summarize(app.server01.load,\"1s\",\"sum\")"))
 
     target = Slate::Target.build("app.server01.load") do |t|
       t.add_function :movingAverage, 10
     end
-    graph = Slate::Graph.new
+    graph = Slate::Graph.new(@client)
     graph << target
     graph.url.should include(CGI.escape("movingAverage(app.server01.load,10)"))
   end
@@ -74,7 +74,7 @@ describe Slate::Graph do
       t.add_function :asPercent, first_target
     end
 
-    graph = Slate::Graph.new
+    graph = Slate::Graph.new(@client)
     graph << second_target
 
     graph.url.should include(CGI.escape("asPercent(app.server01.load,sum(app.server*.load))"))
@@ -82,15 +82,15 @@ describe Slate::Graph do
 
   it "should be able to specify start and end times" do
     target = Slate::Target.build("app.server01.load")
-    graph = Slate::Graph.new(:from => "-1d")
+    graph = Slate::Graph.new(@client, :from => "-1d")
     graph << target
     graph.url.should match(/from=-1d/)
 
-    graph = Slate::Graph.new(:until => "-1d")
+    graph = Slate::Graph.new(@client, :until => "-1d")
     graph << target
     graph.url.should match(/until=-1d/)
 
-    graph = Slate::Graph.new(:from => "-1d", :until => "-6h")
+    graph = Slate::Graph.new(@client, :from => "-1d", :until => "-6h")
     graph << target
     graph.url.should match(/from=-1d/)
     graph.url.should match(/until=-6h/)
@@ -98,7 +98,7 @@ describe Slate::Graph do
 
   it "should provide methods for retrieving formats" do
     target = Slate::Target.build("app.server01.load")
-    graph = Slate::Graph.new
+    graph = Slate::Graph.new(@client)
     graph << target
     graph.url(:png).should  match(/format=png/)
     graph.url(:raw).should  match(/format=raw/)
@@ -109,7 +109,7 @@ describe Slate::Graph do
 
   it "should retrieve the graph" do
     target = Slate::Target.build("app.server01.load")
-    graph = Slate::Graph.new
+    graph = Slate::Graph.new(@client)
     graph << target
     graph.download(:png).should  eq(@png_stub)
     graph.download(:raw).should  eq(@raw_stub)
