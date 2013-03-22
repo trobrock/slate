@@ -2,6 +2,7 @@
 [![Build Status](https://secure.travis-ci.org/trobrock/slate.png)](http://travis-ci.org/trobrock/slate)
 [![Dependency Status](https://gemnasium.com/trobrock/slate.png)](https://gemnasium.com/trobrock/slate)
 [![Coverage Status](https://coveralls.io/repos/trobrock/slate/badge.png?branch=master)](https://coveralls.io/r/trobrock/slate)
+[![Code Climate](https://codeclimate.com/github/trobrock/slate.png)](https://codeclimate.com/github/trobrock/slate)
 
 Simple wrapper to the Graphite render api
 
