@@ -1,3 +1,6 @@
+require 'coveralls'
+Coveralls.wear!
+
 require "slate"
 require "webmock/rspec"
 require "mocha_standalone"

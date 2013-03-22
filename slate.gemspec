@@ -28,4 +28,5 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency "webmock"
   gem.add_development_dependency "guard-rspec"
   gem.add_development_dependency "rb-fsevent", "~> 0.9"
+  gem.add_development_dependency "coveralls", "~> 0.6.3"
 end
