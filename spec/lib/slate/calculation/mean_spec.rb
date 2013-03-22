@@ -17,6 +17,14 @@ describe Slate::Calculation::Mean do
     @graph.stubs(:download).with(:json).returns(JSON.generate(data))
   end
 
+  it "should have a name" do
+    Slate::Calculation::Mean.name.should == "Average"
+  end
+
+  it "should have a description" do
+    Slate::Calculation::Mean.description.should == "Calculates the average of all points in each of the targets."
+  end
+
   it "should calculate the mean of the series" do
     calculation = Slate::Calculation::Mean.new(@graph)
     calculation.result.should == [{ "name" => "some.stat", "value" => 1.5 }]
