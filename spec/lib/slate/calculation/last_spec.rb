@@ -18,7 +18,7 @@ describe Slate::Calculation::Last do
   end
 
   it "should have a name" do
-    Slate::Calculation::Last.name.should == "Last Point"
+    Slate::Calculation::Last.name.should == "Last Value"
   end
 
   it "should have a description" do
