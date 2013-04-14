@@ -23,10 +23,11 @@ module Slate
       @client  = client
       @from    = options[:from]
       @until   = options[:until]
+      @targets  = options[:targets] || []
     end
 
     def <<(target)
-      @target = target
+      @targets << target
     end
 
     # Public: Generate a URL to the image of the graph.
@@ -55,10 +56,9 @@ module Slate
 
     def url_options
       options = []
-      options << ["target", @target.to_s]
+      options += @targets.map { |t| ["target", t.to_s] }
       options << ["from", @from]   if @from
       options << ["until", @until] if @until
-
       options
     end
 
