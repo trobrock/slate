@@ -23,7 +23,7 @@ module Slate
       @client  = client
       @from    = options[:from]
       @until   = options[:until]
-      @targets  = options[:targets] || []
+      @targets = options[:targets] || []
     end
 
     def <<(target)
