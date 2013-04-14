@@ -39,7 +39,6 @@ describe Slate::Graph do
     graph = Slate::Graph.new(@client)
     graph << Slate::Target.build("app.server01.load")
     graph << Slate::Target.build("app.server02.load")
-    puts graph.url
     query(graph.url).should include("target" => ["app.server01.load", "app.server02.load"], "format" => "png")
   end
 
