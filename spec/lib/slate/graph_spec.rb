@@ -35,6 +35,14 @@ describe Slate::Graph do
     query(graph.url).should include("target" => "app.server01.load", "format" => "png")
   end
 
+  it "should be able to get multiple targets" do
+    graph = Slate::Graph.new(@client)
+    graph << Slate::Target.build("app.server01.load")
+    graph << Slate::Target.build("app.server02.load")
+    puts graph.url
+    query(graph.url).should include("target" => ["app.server01.load", "app.server02.load"], "format" => "png")
+  end
+
   it "should be able to apply functions" do
     target = Slate::Target.build("app.server01.load") do |t|
       t.add_function :cumulative
