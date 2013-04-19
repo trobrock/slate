@@ -27,7 +27,7 @@ Or install it yourself as:
 Configure the Slate client
 
 ```ruby
-Slate.configure do |config|
+client = Slate.configure do |config|
   config.endpoint = "http://your.graphite-server.com"
 end
 ```
@@ -37,7 +37,7 @@ end
 To build a basic graph
 
 ```ruby
-graph = Slate::Graph.new
+graph = Slate::Graph.new(client)
 graph << Slate::Target.build("stats.web01.load")
 
 puts graph.url
@@ -47,7 +47,7 @@ puts graph.download(:json)
 Adjust the timeframe of the graph
 
 ```ruby
-graph       = Slate::Graph.new
+graph       = Slate::Graph.new(client)
 graph.from  = "-1w"
 graph.until = "-1d"
 graph << Slate::Target.build("stats.web01.load")
@@ -56,7 +56,7 @@ graph << Slate::Target.build("stats.web01.load")
 Use functions
 
 ```ruby
-graph = Slate::Graph.new
+graph = Slate::Graph.new(client)
 
 graph << Slate::Target.build("stats.web01.load") do |target|
   target.add_function :sum
@@ -72,7 +72,7 @@ Slate also provides a text interface for building targets, this can be useful if
 This text interface also support being able to pass targets as arguments to functions, like you need for the `asPercentOf` function.
 
 ```ruby
-graph = Slate::Graph.new
+graph = Slate::Graph.new(client)
 
 target = <<-SLATE
 "stats.web1.load" {
@@ -91,7 +91,7 @@ Full test cases for different things this syntax supports are here: [Parser Spec
 Slate supports things call Calculations, which take in graphite data and boil them down to single numbers, this can be useful if you wanted to calculate the average load over the week for all your servers.
 
 ```ruby
-graph = Slate::Graph.new
+graph = Slate::Graph.new(client)
 graph << Slate::Target.build("stats.web01.load")
 
 p Slate::Calculation::Mean.new(graph).result
@@ -113,3 +113,5 @@ All the possible calculation classes are [here](https://github.com/trobrock/slat
 Trae Robrock (https://github.com/trobrock)
 
 Andrew Katz (https://github.com/andrewkatz)
+
+David Sennerlöv (https://github.com/dsennerlov)
