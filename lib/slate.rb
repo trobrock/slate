@@ -1,4 +1,5 @@
 require "slate/version"
+require "slate/error"
 require "slate/client"
 require "slate/target"
 require "slate/graph"

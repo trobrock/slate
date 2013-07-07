@@ -1,5 +1,5 @@
 require 'cgi'
-require 'rest-client'
+require 'faraday'
 
 module Slate
   class Graph
@@ -65,10 +65,19 @@ module Slate
     #   download(:json)
     #   # => '{"targets":[]}'
     def download(format=:png)
-      RestClient.get url(format)
+      connection.get(url(format)).body
+    rescue Faraday::Error::TimeoutError
+      raise Slate::Error::TimeoutError
     end
 
     private
+
+    def connection
+      @connection ||= Faraday.new do |faraday|
+        faraday.options[:timeout] = @client.timeout || 10
+        faraday.adapter Faraday.default_adapter
+      end
+    end
 
     def url_options
       options = []
