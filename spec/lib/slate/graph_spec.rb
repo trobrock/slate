@@ -124,6 +124,19 @@ describe Slate::Graph do
     graph.download(:json).should eq(@json_stub)
     graph.download(:svg).should  eq(@svg_stub)
   end
+
+  it "should respect the configured timeout" do
+    stub_request(:get, "http://graphite/render?format=png&target=app.server01.timeout").
+      to_timeout
+
+    target = Slate::Target.build("app.server01.timeout")
+    graph = Slate::Graph.new(@client)
+    graph << target
+
+    expect {
+      graph.download(:png).should  eq(@png_stub)
+    }.to raise_error(Slate::Error::TimeoutError)
+  end
 end
 
 def stub_download(format, body="")
