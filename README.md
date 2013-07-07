@@ -29,6 +29,7 @@ Configure the Slate client
 ```ruby
 client = Slate.configure do |config|
   config.endpoint = "http://your.graphite-server.com"
+  config.timeout  = 30 # In seconds (default: 10)
 end
 ```
 

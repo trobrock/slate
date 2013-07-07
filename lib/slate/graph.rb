@@ -74,7 +74,7 @@ module Slate
 
     def connection
       @connection ||= Faraday.new do |faraday|
-        faraday.options[:timeout] = 10
+        faraday.options[:timeout] = @client.timeout || 10
         faraday.adapter Faraday.default_adapter
       end
     end
