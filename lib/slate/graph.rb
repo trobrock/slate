@@ -26,6 +26,14 @@ module Slate
       @targets = options[:targets] || []
     end
 
+    # Public: Adds a target to a graph.
+    #
+    # target - A Slate::Target instance.
+    #
+    # Examples
+    #
+    #   graph = Slate::Graph.new(client)
+    #   graph << Slate::Target.build("test.metric")
     def <<(target)
       @targets << target
     end
@@ -48,6 +56,14 @@ module Slate
       "#{@client.endpoint}/render?#{params(options)}"
     end
 
+    # Public: Retrieve the data from the graphite server in the requested format.
+    #
+    # format - The format of the data to return, as a Symbol (default: :png).
+    #
+    # Examples
+    #
+    #   download(:json)
+    #   # => '{"targets":[]}'
     def download(format=:png)
       RestClient.get url(format)
     end
