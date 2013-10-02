@@ -3,6 +3,7 @@
 [![Dependency Status](https://gemnasium.com/trobrock/slate.png)](https://gemnasium.com/trobrock/slate)
 [![Coverage Status](https://coveralls.io/repos/trobrock/slate/badge.png?branch=master)](https://coveralls.io/r/trobrock/slate)
 [![Code Climate](https://codeclimate.com/github/trobrock/slate.png)](https://codeclimate.com/github/trobrock/slate)
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/trobrock/slate/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
 Simple wrapper to the Graphite render api
 
