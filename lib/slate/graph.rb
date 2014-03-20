@@ -53,7 +53,7 @@ module Slate
     # Returns the URL String.
     def url(format=:png)
       options = url_options.merge("format" => format.to_s)
-      connection.build_url("#{@client.endpoint}/render", options).to_s
+      connection.build_url(*faraday_args(format)).to_s
     end
 
     # Public: Retrieve the data from the graphite server in the requested format.
@@ -65,12 +65,17 @@ module Slate
     #   download(:json)
     #   # => '{"targets":[]}'
     def download(format=:png)
-      connection.get(url(format)).body
+      connection.get(*faraday_args(format)).body
     rescue Faraday::Error::TimeoutError
       raise Slate::Error::TimeoutError
     end
 
     private
+
+    def faraday_args(format)
+      options = url_options.merge("format" => format.to_s)
+      ["#{@client.endpoint}/render", options]
+    end
 
     def connection
       @connection ||= Faraday.new(:request => { :params_encoder => Faraday::FlatParamsEncoder }) do |faraday|
