@@ -48,7 +48,11 @@ module Slate
       end
 
       def data
-        @data ||= JSON.parse(@graph.download(:json))
+        @data ||= begin
+                    JSON.parse(@graph.download(:json))
+                  rescue JSON::ParserError
+                    []
+                  end
       end
     end
   end
