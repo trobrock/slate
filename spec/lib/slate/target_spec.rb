@@ -42,6 +42,20 @@ describe Slate::Target do
       end
     end
 
+    context "with a boolean as a function argument" do
+      it "should add the arguments with false" do
+        target.add_function :summarize, "1h", "avg", false
+
+        target.to_s.should == "summarize(some.target,\"1h\",\"avg\",false)"
+      end
+
+      it "should add the arguments with true" do
+        target.add_function :summarize, "1h", "avg", true
+
+        target.to_s.should == "summarize(some.target,\"1h\",\"avg\",true)"
+      end
+    end
+
     context "with a number as a function argument" do
       it "should add an argument" do
         target.add_function :aliasByNode, 1

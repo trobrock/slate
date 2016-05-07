@@ -43,6 +43,8 @@ module Slate
       args.map do |arg|
         if arg.is_a?(Numeric)
           arg.to_s
+        elsif arg == true || arg == false
+            arg.to_s
         elsif arg.is_a? Slate::Target
           arg.to_s
         else
