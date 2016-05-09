@@ -59,12 +59,12 @@ describe Slate::Parser do
 
   it "should be able to parse a target with one function and multiple args" do
     target = Slate::Target.build("stats.web01.response_time") do |t|
-      t.add_function :summarize, "5min", "avg"
+      t.add_function :summarize, "5min", "avg", true
     end
 
     Slate::Parser.parse(%q{
       "stats.web01.response_time" {
-        summarize "5min", "avg"
+        summarize "5min", "avg", true
       }
     }).to_s.should == target.to_s
   end
@@ -72,13 +72,13 @@ describe Slate::Parser do
   it "should be able to parse a target with multiple functions" do
     target = Slate::Target.build("stats.web01.response_time") do |t|
       t.add_function :sum
-      t.add_function :summarize, "5min", "avg"
+      t.add_function :summarize, "5min", "avg", false
     end
 
     Slate::Parser.parse(%q{
       "stats.web01.response_time" {
         sum
-        summarize "5min", "avg"
+        summarize "5min", "avg", false
       }
     }).to_s.should == target.to_s
   end

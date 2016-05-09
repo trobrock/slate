@@ -6,6 +6,18 @@ module Slate
       end
     end
 
+    class True < Treetop::Runtime::SyntaxNode
+      def text_value
+        true
+      end
+    end
+
+    class False < Treetop::Runtime::SyntaxNode
+      def text_value
+        false
+      end
+    end
+
     class Function < Treetop::Runtime::SyntaxNode
       def text_value
         elements.detect{ |e| e.is_a? Token }.text_value

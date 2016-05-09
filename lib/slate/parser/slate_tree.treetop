@@ -4,6 +4,18 @@ module Slate
       (target / space)*
     end
 
+    rule true
+      'true' <True>
+    end
+
+    rule false
+      'false' <False>
+    end
+
+    rule boolean
+      true / false
+    end
+
     rule target
       space? string space '{' space? function* space? '}' <Target>
     end
@@ -13,11 +25,11 @@ module Slate
     end
 
     rule argument
-      (string / integer) ','? space? <Argument>
+      (boolean / string / integer) ','? space? <Argument>
     end
 
     rule token
-      [a-zA-Z]+ <Token>
+      !boolean [a-zA-Z]+ <Token>
     end
 
     rule string
