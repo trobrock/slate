@@ -52,8 +52,8 @@ module Slate
     #
     # Returns the URL String.
     def url(format=:png)
-      options = url_options.push(["format", format.to_s])
-      "#{@client.endpoint}/render?#{params(options)}"
+      options = url_options.merge("format" => format.to_s)
+      connection.build_url(*faraday_args(format)).to_s
     end
 
     # Public: Retrieve the data from the graphite server in the requested format.
@@ -65,34 +65,31 @@ module Slate
     #   download(:json)
     #   # => '{"targets":[]}'
     def download(format=:png)
-      connection.get(url(format)).body
+      connection.get(*faraday_args(format)).body
     rescue Faraday::Error::TimeoutError
       raise Slate::Error::TimeoutError
     end
 
     private
 
+    def faraday_args(format)
+      options = url_options.merge("format" => format.to_s)
+      ["#{@client.endpoint}/render", options]
+    end
+
     def connection
-      @connection ||= Faraday.new do |faraday|
+      @connection ||= Faraday.new(:request => { :params_encoder => Faraday::FlatParamsEncoder }) do |faraday|
         faraday.options[:timeout] = @client.timeout || 10
         faraday.adapter Faraday.default_adapter
       end
     end
 
     def url_options
-      options = []
-      options += @targets.map { |t| ["target", t.to_s] }
-      options << ["from", @from]   if @from
-      options << ["until", @until] if @until
+      options = {}
+      options["target"] = @targets
+      options["from"]   = @from   if @from
+      options["until"]  = @until  if @until
       options
-    end
-
-    def params(options={})
-      options.map do |param|
-        key   = param.first
-        value = param.last
-        "#{CGI.escape(key)}=#{CGI.escape(value)}"
-      end.join("&")
     end
   end
 end

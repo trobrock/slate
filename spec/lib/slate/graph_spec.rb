@@ -115,9 +115,13 @@ describe Slate::Graph do
   end
 
   it "should retrieve the graph" do
-    target = Slate::Target.build("app.server01.load")
+    first_target  = Slate::Target.build("app.server01.load")
+    second_target = Slate::Target.build("app.server02.load")
+
     graph = Slate::Graph.new(@client)
-    graph << target
+    graph << first_target
+    graph << second_target
+
     graph.download(:png).should  eq(@png_stub)
     graph.download(:raw).should  eq(@raw_stub)
     graph.download(:csv).should  eq(@csv_stub)
@@ -140,6 +144,6 @@ describe Slate::Graph do
 end
 
 def stub_download(format, body="")
-  stub_request(:get, "http://graphite/render?format=#{format}&target=app.server01.load").
+  stub_request(:get, "http://graphite/render?format=#{format}&target=app.server01.load&target=app.server02.load").
     to_return(:status => 200, :body => body, :headers => {})
 end
